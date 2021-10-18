@@ -4,14 +4,18 @@ const db = require('../infra/db');
 
 const AssertionError = require('../domain/common/AssertionError');
 const DuplicationError = require('../domain/common/DuplicationError');
-const UsersController = require('../controllers/Users');
 const UserRepository = require('../infra/repositories/MongoUserRepository');
+const TokenJwtService = require('../infra/services/TokenJwtService');
+const UsersController = require('../controllers/Users');
+const LoginController = require('../controllers/Login');
 
 class Routes {
   connectDB() {
     db().then((client) => {
       this.userRepository = new UserRepository(client);
+      this.tokenJwtService = new TokenJwtService();
       this.users = new UsersController(this.userRepository);
+      this.login = new LoginController(this.userRepository, this.tokenJwtService);
     });
   }
 
@@ -20,6 +24,9 @@ class Routes {
   
     this.routes.route('/users')
       .post(rescue(async (req, res) => this.users.newUser(req, res)));
+
+    this.routes.route('/login')
+      .post(rescue(async (req, res) => this.login.autenticate(req, res)));
 
     this.routes.use((err, req, res, next) => {
       if (err instanceof AssertionError) {
@@ -31,7 +38,7 @@ class Routes {
       }
 
       return res.status(500)
-         .json({ error: 'i have a bad feeling about this' });
+         .json({ error: 'internal error' });
     });
   }
 }

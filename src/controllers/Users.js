@@ -1,9 +1,9 @@
 const NewUser = require('../domain/User/NewUser');
 
 class Users {
-  constructor(repository) {
+  constructor(repository, tokenService) {
     this.repository = repository;
-    this.useCase = new NewUser(repository);
+    this.useCase = new NewUser(repository, tokenService);
   }
 
   async newUser(req, res) {
