@@ -1,7 +1,7 @@
 const AssertionError = require('./AssertionError');
 //const NotFoundError = require('./NotFoundError').default;
 
-export default class Assertion {
+class Assertion {
 
   assertEquals(anObject1, anObject2) {
     if (anObject1 !== anObject2) {
@@ -44,6 +44,10 @@ export default class Assertion {
       throw new AssertionError; 
     }
   }
+
+  assertEmail(anValue = '') {
+    return /\S+@\S+\.\S+/.test(anValue);
+  }
 /*
   assertNotFound(anObject) {
     if (!anObject) {
@@ -63,3 +67,5 @@ export default class Assertion {
       }
   }*/
 }
+
+module.exports = Assertion;

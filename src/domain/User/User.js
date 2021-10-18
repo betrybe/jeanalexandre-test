@@ -1,71 +1,69 @@
 const Assertion = require('../common/Assertion');
 
 class User {
-  constructor({
-    id, name, email,
-    role, password }) {
-    this._assertion = new Assertion();
+  constructor({ id, name, email, password }) {
+    this.assertion = new Assertion();
 
     this.id = id;
     this.name = name;
     this.email = email;
     this.password = password;
-    //this.role = role;
   }
 
   set id(value) {
-    this._assertion.assertNotNull(value);
-    this._id = value;
+    this.assertion.assertNotNull(value);
+    this.aId = value;
   }
 
   get id() {
-    return this._id;
+    return this.aId;
   }
 
   set name(value) {
-    this._assertion.assertNotNull(value);
-    this._name = value;
+    this.assertion.assertNotNull(value);
+    this.aName = value;
   }
 
   get name() {
-    return this._name;
+    return this.aName;
   }
 
   set email(value) {
-    this._assertion.assertNotNull(value);
-    this._email = value;
+    this.assertion.assertNotNull(value);
+    this.assertion.assertEmail(value);
+    this.aEmail = value;
   }
 
   get email() {
-    return this._email;
+    return this.aEmail;
   }
 
   set role(value) {
-    this._assertion.assertNotNull(value, 'O role não pode ficar vazio!', 'role');
-    this._role = value;
+    this.assertion.assertNotNull(value);
+    this.aRole = value;
   }
 
   get role() {
-    return this._role;
+    return this.aRole;
   }
 
-  set password({ password }) {
-   // this._assertion.assertNotNull(criptografia, 'A senha não pode ficar vazia!', 'senha.criptografia');
-   // this._assertion.assertInterval(tamanho, 6, 20, 'O tamanho da senha deve ser entre 6 e 20 caracteres!', 'senha.tamanho');
-    this._password = password;
+  set password(password) {
+   // this.assertion.assertNotNull(criptografia, 'A senha não pode ficar vazia!', 'senha.criptografia');
+   // this.assertion.assertInterval(tamanho, 6, 20, 'O tamanho da senha deve ser entre 6 e 20 caracteres!', 'senha.tamanho');
+    this.aPassword = password;
   }
 
   get password() {
-    return this._password;
+    return this.aPassword;
   }
 
   /*
   atribuirPassaportes(passaportes){
-  this._assertion.assertNotNull(passaportes, "O passaporte não pode ser nulo!", "passaportes");
-  this._assertion.assertNotEmpty(passaportes, "O passaporte não pode ser vazio!", "passaportes");
+  this.assertion.assertNotNull(passaportes, "O passaporte não pode ser nulo!", "passaportes");
+  this.assertion.assertNotEmpty(passaportes, "O passaporte não pode ser vazio!", "passaportes");
   
   for(let i = 0; i < passaportes.length; i++) {
-  this._assertion.assertTrue(passaportes[i] instanceof Passaporte, 
+  this.assertion.assertTrue(passaportes[i] instanceof Passaporte, 
   `O passaporte na posição ${i + 1} não é válido!`, `passaportes[${i}]`);
   }
   
