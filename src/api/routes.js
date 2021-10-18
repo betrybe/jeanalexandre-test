@@ -5,16 +5,20 @@ const db = require('../infra/db');
 const AssertionError = require('../domain/common/AssertionError');
 const DuplicationError = require('../domain/common/DuplicationError');
 const UserRepository = require('../infra/repositories/MongoUserRepository');
+const RecipeRepository = require('../infra/repositories/MongoRecipeRepository');
 const TokenJwtService = require('../infra/services/TokenJwtService');
 const UsersController = require('../controllers/Users');
+const RecipesController = require('../controllers/Recipes');
 const LoginController = require('../controllers/Login');
 
 class Routes {
   connectDB() {
     db().then((client) => {
       this.userRepository = new UserRepository(client);
+      this.recipeRepository = new RecipeRepository(client);
       this.tokenJwtService = new TokenJwtService();
       this.users = new UsersController(this.userRepository);
+      this.recipes = new RecipesController(this.recipeRepository);
       this.login = new LoginController(this.userRepository, this.tokenJwtService);
     });
   }
@@ -28,22 +32,26 @@ class Routes {
     this.routes.route('/login')
       .post(rescue(async (req, res) => this.login.autenticate(req, res)));
 
-    this.routes.use((err, req, res, next) => {
-      
-      if (err instanceof AssertionError) {
-        if (req.pathname === '/login') {
-          return res.status(401).json({ message: err.message });
-        }
+    this.routes.route('/recipes')
+      .post(rescue(async (req, res) => this.recipes.newRecipe(req, res)));
+  }
 
-        return res.status(400).json({ message: err.message });
+  createErrorRoutes() {
+    this.routes.use((err, req, res, next) => {
+      let status = 500;
+      if (err instanceof AssertionError) {
+        status = 400;
+        if (req.url === '/login' || req.url === '/login/') {
+          status = 401;
+        }
       }
 
       if (err instanceof DuplicationError) {
-        return res.status(409).json({ message: err.message });
+        status = 409;
       }
-
-      return res.status(500)
-         .json({ error: 'internal error' });
+      
+      return res.status(status)
+        .json({ message: err.message });
     });
   }
 }
@@ -51,5 +59,6 @@ class Routes {
 const injection = new Routes();
 injection.connectDB();
 injection.createRoutes();
+injection.createErrorRoutes();
 
 module.exports = injection.routes;
