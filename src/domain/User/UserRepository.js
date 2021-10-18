@@ -19,8 +19,8 @@ class UserRepository {
     return this.strategy.findById(id);
   }
 
-  findByEmail(login) {
-    return this.strategy.findByEmail(login);
+  findByEmail(email) {
+    return this.strategy.findByEmail(email);
   }
 }
 

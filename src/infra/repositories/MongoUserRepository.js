@@ -1,4 +1,5 @@
 const mongo = require('mongodb');
+const User = require('../../domain/User/User')
 
 class MongoUserRepository {
   constructor(client) {
@@ -31,8 +32,9 @@ class MongoUserRepository {
     ///
   }
 
-  findByEmail(login) {
-    //
+  async findByEmail(email) {
+    const [userMongo] = await this.collection.find({ email }).toArray();
+    return User.fromJson({ ...userMongo });
   }
 }
 

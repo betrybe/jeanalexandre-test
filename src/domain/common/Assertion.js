@@ -2,51 +2,51 @@ const AssertionError = require('./AssertionError');
 //const NotFoundError = require('./NotFoundError').default;
 
 class Assertion {
-
   assertEquals(anObject1, anObject2) {
     if (anObject1 !== anObject2) {
-       throw new AssertionError; 
+       throw new AssertionError(); 
     }
   }
 
   assertNotEquals(anObject1, anObject2) {
     if (anObject1 === anObject2) {
-      throw new AssertionError;
+      throw new AssertionError();
     }
   }
 
   assertNotNull(anObject) {
     if (!anObject) {
-      throw new AssertionError; 
+      throw new AssertionError(); 
     }
   }
 
-  assertNull(anObject) {
+  assertNull(anObject, aMessage) {
     if (anObject) {
-      throw new AssertionError;
+      throw new AssertionError(aMessage);
     }
   }
 
   assertTrue(anValue) {
     if (!anValue) {
-      throw new AssertionError; 
+      throw new AssertionError(); 
     }
   }
 
   assertFalse(anValue) {
     if (anValue) {
-      throw new AssertionError; 
+      throw new AssertionError(); 
     }
   }
 
   assertNotEmpty(anValue = []) {
     if (anValue.length === 0) {
-      throw new AssertionError; 
+      throw new AssertionError(); 
     }
   }
 
   assertEmail(anValue = '') {
-    return /\S+@\S+\.\S+/.test(anValue);
+    if(/\S+@\S+\.\S+/.test(anValue) === false)
+      throw new AssertionError(); 
   }
 /*
   assertNotFound(anObject) {

@@ -29,11 +29,8 @@ class NewUser {
   }
 
   async validDuplicatedEmail(email) {
-   /* const UserComMesmoLogin = await this._repository.buscarPorLogin(nameUser);
-    this._assertion.assertFalse(UserComMesmoLogin, 
-      `O name de usuário ${nameUser} já está registrado, não pode ser duplicado!`,
-      'nameUser');   
-		*/ 
+    const user = await this.repository.findByEmail(email);
+    this.assertion.assertNull(user, 'Email already registered');
   }
 }
 

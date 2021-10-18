@@ -85,14 +85,14 @@ class User {
   }
 
   static fromJson({
-    id,
+    _id,
     name,
     email,
     password,
     role,
   }) {
     const user = new User({
-      id,
+      id: _id,
       name,
       email,
       password,
