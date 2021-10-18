@@ -1,22 +1,29 @@
 const AssertionError = require('./AssertionError');
+const DuplicationError = require('./DuplicationError');
 //const NotFoundError = require('./NotFoundError').default;
 
 class Assertion {
-  assertEquals(anObject1, anObject2) {
+  assertEquals(anObject1, anObject2, aMessage) {
     if (anObject1 !== anObject2) {
-       throw new AssertionError(); 
+       throw new AssertionError(aMessage); 
     }
   }
 
-  assertNotEquals(anObject1, anObject2) {
+  assertNotEquals(anObject1, anObject2, aMessage) {
     if (anObject1 === anObject2) {
-      throw new AssertionError();
+      throw new AssertionError(aMessage);
     }
   }
 
-  assertNotNull(anObject) {
+  assertIsNullDuplicated(anObject1, aMessage) {
+    if (anObject1) {
+      throw new DuplicationError(aMessage);
+    }
+  }
+
+  assertNotNull(anObject, aMessage) {
     if (!anObject) {
-      throw new AssertionError(); 
+      throw new AssertionError(aMessage); 
     }
   }
 
@@ -26,27 +33,27 @@ class Assertion {
     }
   }
 
-  assertTrue(anValue) {
+  assertTrue(anValue, aMessage) {
     if (!anValue) {
-      throw new AssertionError(); 
+      throw new AssertionError(aMessage); 
     }
   }
 
-  assertFalse(anValue) {
+  assertFalse(anValue, aMessage) {
     if (anValue) {
-      throw new AssertionError(); 
+      throw new AssertionError(aMessage); 
     }
   }
 
-  assertNotEmpty(anValue = []) {
+  assertNotEmpty(anValue = [], aMessage) {
     if (anValue.length === 0) {
-      throw new AssertionError(); 
+      throw new AssertionError(aMessage); 
     }
   }
 
-  assertEmail(anValue = '') {
+  assertIsEmail(anValue = '', aMessage) {
     if(/\S+@\S+\.\S+/.test(anValue) === false)
-      throw new AssertionError(); 
+      throw new AssertionError(aMessage); 
   }
 /*
   assertNotFound(anObject) {

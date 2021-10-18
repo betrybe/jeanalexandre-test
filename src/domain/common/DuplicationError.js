@@ -1,7 +1,7 @@
-class AssertionError {
+class DuplicationError {
   constructor(message) {
     this.message = message;
   }
 }
 
-module.exports = AssertionError;
+module.exports = DuplicationError;

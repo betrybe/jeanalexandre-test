@@ -9,11 +9,7 @@ class NewUser {
     this.repository.strategy = repository;
   }
   
-  async create(newId, { 
-    name,
-    email,
-    password,
-  }) {
+  async create(newId, { name, email, password }) {
     await this.validDuplicatedEmail(email);
 
     const user = new User({
@@ -24,13 +20,12 @@ class NewUser {
     });
       
     const userSaved = await this.repository.save(user.toJson());
-
     return userSaved;
   }
 
   async validDuplicatedEmail(email) {
     const user = await this.repository.findByEmail(email);
-    this.assertion.assertNull(user, 'Email already registered');
+    this.assertion.assertIsNullDuplicated(user, 'Email already registered');   
   }
 }
 

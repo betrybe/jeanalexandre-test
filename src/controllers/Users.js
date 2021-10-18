@@ -7,13 +7,12 @@ class Users {
   }
 
   async newUser(req, res) {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
     const newId = this.repository.nextId();
     
-    const user = await this.useCase.create(newId, { name, email, password });
+    const user = await this.useCase.create(newId, { name, email, password, role });
 
-    return res.status(201)
-      .json({ user });    
+    return res.status(201).json({ user });    
   }
 }
 
