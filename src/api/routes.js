@@ -29,7 +29,12 @@ class Routes {
       .post(rescue(async (req, res) => this.login.autenticate(req, res)));
 
     this.routes.use((err, req, res, next) => {
+      
       if (err instanceof AssertionError) {
+        if (req.pathname === '/login') {
+          return res.status(401).json({ message: err.message });
+        }
+
         return res.status(400).json({ message: err.message });
       }
 
