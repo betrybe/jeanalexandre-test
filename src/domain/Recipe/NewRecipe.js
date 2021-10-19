@@ -9,8 +9,7 @@ class NewRecipe {
     this.repository.strategy = repository;
   }
   
-  async create(newId, { name, ingredients, preparation, userId }) {
-    
+  async create(newId, { name, ingredients, preparation, userId }) {    
     const recipe = new Recipe({
       id: newId,
       name,

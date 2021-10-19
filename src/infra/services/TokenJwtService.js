@@ -1,22 +1,26 @@
 const jwt = require('jsonwebtoken');
-
-const SECRET = '1af6541a45ads0';
+const AuthorizationError = require('../../domain/common/AuthorizationError');
 
 class TokenJwtService {
+  constructor() {
+    this.SECRET = '1af6541a45ads0';
+  }
+
   extract(token) {
-    return jwt.verify(token, SECRET, (err, decoded) => {
-      if(err) return null;
+    if (!token) throw new AuthorizationError('jwt malformed');
+
+    return jwt.verify(token, this.SECRET, (err, decoded) => {
+      if (err) throw new AuthorizationError('jwt malformed');
 
       return {
-        id : decoded.id,
-        email: decoded.email
+        id: decoded.id,
+        email: decoded.email,
       };
-
     });
   }
 
   generate({ id, email }) {
-    return jwt.sign({ id, email }, SECRET, { expiresIn: '30m' });
+    return jwt.sign({ id, email }, this.SECRET, { expiresIn: '30m' });
   }
 }
 

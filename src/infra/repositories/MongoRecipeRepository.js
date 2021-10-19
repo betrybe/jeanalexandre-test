@@ -30,8 +30,8 @@ class MongoRecipeRepository {
     return recipe;
   }
 
-  findById(id) {
-    ///
+  findAll() {
+    return this.collection.find({}).toArray();
   }
 }
 

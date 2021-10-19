@@ -4,6 +4,8 @@ const db = require('../infra/db');
 
 const AssertionError = require('../domain/common/AssertionError');
 const DuplicationError = require('../domain/common/DuplicationError');
+const AuthorizationError = require('../domain/common/AuthorizationError');
+
 const UserRepository = require('../infra/repositories/MongoUserRepository');
 const RecipeRepository = require('../infra/repositories/MongoRecipeRepository');
 const TokenJwtService = require('../infra/services/TokenJwtService');
@@ -18,7 +20,7 @@ class Routes {
       this.recipeRepository = new RecipeRepository(client);
       this.tokenJwtService = new TokenJwtService();
       this.users = new UsersController(this.userRepository);
-      this.recipes = new RecipesController(this.recipeRepository);
+      this.recipes = new RecipesController(this.recipeRepository, this.tokenJwtService);
       this.login = new LoginController(this.userRepository, this.tokenJwtService);
     });
   }
@@ -33,6 +35,7 @@ class Routes {
       .post(rescue(async (req, res) => this.login.autenticate(req, res)));
 
     this.routes.route('/recipes')
+      .get(rescue(async (req, res) => this.recipes.listAll(req, res)))
       .post(rescue(async (req, res) => this.recipes.newRecipe(req, res)));
   }
 
@@ -41,9 +44,10 @@ class Routes {
       let status = 500;
       if (err instanceof AssertionError) {
         status = 400;
-        if (req.url === '/login' || req.url === '/login/') {
-          status = 401;
-        }
+      }
+
+      if (err instanceof AuthorizationError) {
+        status = 401;
       }
 
       if (err instanceof DuplicationError) {

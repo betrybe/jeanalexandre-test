@@ -24,7 +24,7 @@ class Autenticate {
     
     this.assertion.assertEquals(user.password, password, USER_NOT_FOUND_MESSAGE);
 
-    return this.tokenService.generate({ email });
+    return this.tokenService.generate({ id: user.id, email });
   }
 }
 

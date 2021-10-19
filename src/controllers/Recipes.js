@@ -8,13 +8,20 @@ class Recipes {
   }
 
   async newRecipe(req, res) {
-    const { name, ingredients, preparation } = req.body;
-    const { token } = req.headers;
+    const token = req.get('Authorization') || req.headers.authorization;
     const { id: userId } = this.tokenService.extract(token);
+    const { name, ingredients, preparation } = req.body;
+    
+    const newId = this.repository.nextId();
 
-    const recipe = await this.useCase.create({ name, ingredients, preparation, userId });
+    const recipe = await this.useCase.create(newId, { name, ingredients, preparation, userId });
 
-    return res.status(201).json(recipe);
+    return res.status(201).json({ recipe });
+  }
+
+  async listAll(req, res) {
+    const list = await this.repository.findAll();
+    return res.json(list);
   }
 }
 
