@@ -1,5 +1,5 @@
 const mongo = require('mongodb');
-const Recipe = require('../../domain/Recipe/Recipe');
+const NotFoundObjectError = require('../../domain/common/NotFoundObjectError');
 
 class MongoRecipeRepository {
   constructor(client) {
@@ -30,8 +30,18 @@ class MongoRecipeRepository {
     return recipe;
   }
 
-  findById(id) {
-    return this.collection.findOne({ _id: id });
+  async findById(id) {
+    if (!this.ObjectID.isValid(id)) {
+      throw new NotFoundObjectError('recipe not found');
+    }
+
+    const item = await this.collection.findOne({ _id: this.ObjectID(id) });
+
+    if (!item) {
+      throw new NotFoundObjectError('recipe not found');
+    }
+
+    return item;
   }
 
   findAll() {

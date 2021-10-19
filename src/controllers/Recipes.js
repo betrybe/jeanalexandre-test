@@ -1,5 +1,4 @@
 const NewRecipe = require('../domain/Recipe/NewRecipe');
-const NotFoundError = require('../domain/common/NotFoundError');
 
 class Recipes {
   constructor(repository, tokenService) {
@@ -23,10 +22,8 @@ class Recipes {
   async getOne(req, res) {
     const { id } = req.params;
     
-    const item = await this.repository.findById(id);
-    if (item) return res.json(item);
-    
-    throw new NotFoundError('recipe not found');  
+    const item = await this.repository.findById(id);  
+    return res.json(item);  
   }
 
   async listAll(req, res) {

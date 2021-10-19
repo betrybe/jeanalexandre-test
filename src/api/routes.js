@@ -5,7 +5,7 @@ const db = require('../infra/db');
 const AssertionError = require('../domain/common/AssertionError');
 const DuplicationError = require('../domain/common/DuplicationError');
 const AuthorizationError = require('../domain/common/AuthorizationError');
-const NotFoundError = require('../domain/common/NotFoundError');
+const NotFoundObjectError = require('../domain/common/NotFoundObjectError');
 
 const UserRepository = require('../infra/repositories/MongoUserRepository');
 const RecipeRepository = require('../infra/repositories/MongoRecipeRepository');
@@ -34,23 +34,24 @@ class Routes {
 
     this.routes.route('/login')
       .post(rescue(async (req, res) => this.login.autenticate(req, res)));
-
-    this.routes.route('/recipes')
-      .get(rescue(async (req, res) => this.recipes.listAll(req, res)))
-      .post(rescue(async (req, res) => this.recipes.newRecipe(req, res)));
     
     this.routes.route('/recipes/:id')
       .get(rescue(async (req, res) => this.recipes.getOne(req, res)));
+    
+    this.routes.route('/recipes')
+      .get(rescue(async (req, res) => this.recipes.listAll(req, res)))
+      .post(rescue(async (req, res) => this.recipes.newRecipe(req, res)));
   }
 
   createErrorRoutes() {
-    this.routes.use((err, req, res) => {
+    this.routes.use((err, req, res, next) => {
       let status = 500;
-      if (err instanceof AssertionError) status = 400; 
-      if (err instanceof AuthorizationError) status = 401;
-      if (err instanceof NotFoundError) status = 404;
-      if (err instanceof DuplicationError) status = 409;      
-      
+
+      if (err instanceof AssertionError) status = 400;   
+      if (err instanceof AuthorizationError) status = 401;      
+      if (err instanceof NotFoundObjectError) status = 404;      
+      if (err instanceof DuplicationError) status = 409;
+
       return res.status(status)
         .json({ message: err.message });
     });
