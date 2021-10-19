@@ -30,10 +30,6 @@ class MongoUserRepository {
     return user;
   }
 
-  findById(id) {
-    ///
-  }
-
   async findByEmail(email) {
     const [userMongo] = await this.collection.find({ email }).toArray();
     if (!userMongo) return null;

@@ -14,10 +14,6 @@ class RecipeRepository {
   save(recipe) {
     return this.strategy.save(recipe);
   }
-
-  findById(id) {
-    return this.strategy.findById(id);
-  }
 }
 
 module.exports = RecipeRepository;

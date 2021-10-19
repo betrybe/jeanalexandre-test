@@ -14,11 +14,7 @@ class UserRepository {
   save(usuario) {
     return this.strategy.save(usuario);
   }
-
-  findById(id) {
-    return this.strategy.findById(id);
-  }
-
+  
   findByEmail(email) {
     return this.strategy.findByEmail(email);
   }
