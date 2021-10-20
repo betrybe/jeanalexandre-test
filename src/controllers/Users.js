@@ -11,6 +11,7 @@ class Users {
     const newId = this.repository.nextId();
     
     const user = await this.useCase.create(newId, { name, email, password, role });
+    delete user.password;
 
     return res.status(201).json({ user });    
   }

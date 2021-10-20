@@ -77,8 +77,9 @@ class Recipes {
   async getOne(req, res) {
     const { id } = req.params;
     
-    const item = await this.repository.findById(id);  
-    return res.json(item);  
+    const recipeFound = await this.repository.findById(id); 
+    const recipe = recipeFound.toJson(); 
+    return res.json(recipe);  
   }
 
   async listAll(req, res) {
