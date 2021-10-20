@@ -1,4 +1,4 @@
-const User = require('../domain/User/User');
+const User = require('../../domain/User/User');
 
 class MemUserRepository {
 	constructor() {

@@ -1,6 +1,6 @@
 const { expect } = require('chai');
-const NewUser = require('../domain/User/NewUser');
-const MemUserRepository = require('./MemUserRepository');
+const NewUser = require('../../../domain/User/NewUser');
+const MemUserRepository = require('../MemUserRepository');
 
 describe("Domain: NewUser", () => {
 	const memRepository = new MemUserRepository();

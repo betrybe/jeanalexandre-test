@@ -1,7 +1,7 @@
 const { expect } = require('chai');
-const Asssertion = require('../domain/common/Assertion');
-const AssertionError = require('../domain/common/AssertionError');
-const DuplicationError = require('../domain/common/DuplicationError');
+const Asssertion = require('../../../domain/common/Assertion');
+const AssertionError = require('../../../domain/common/AssertionError');
+const DuplicationError = require('../../../domain/common/DuplicationError');
 
 describe("Domain: common", () => {	
 	const assertion = new Asssertion();

@@ -1,6 +1,6 @@
 const { expect } = require('chai');
-const User = require('../domain/User/User');
-const AssertionError = require('../domain/common/AssertionError');
+const User = require('../../../domain/User/User');
+const AssertionError = require('../../../domain/common/AssertionError');
 
 const NOT_NULL_MESSAGE = 'Invalid entries. Try again.';
 
