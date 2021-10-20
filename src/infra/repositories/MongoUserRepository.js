@@ -11,9 +11,9 @@ class MongoUserRepository {
     return new this.ObjectID();
   }
 
-  async save({ id, name, email, password, role }) {
+  async save({ _id, name, email, password, role }) {
     const user = {
-      _id: id,
+      _id,
       name,
       email,
       password,
@@ -21,13 +21,11 @@ class MongoUserRepository {
     };
     
     await this.collection.findOneAndUpdate(
-      { _id: id },
+      { _id },
       { $set: user,
       },
       { upsert: true, returnNewDocument: true },
     );
-
-    return user;
   }
 
   async findByEmail(email) {

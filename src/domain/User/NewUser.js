@@ -19,8 +19,9 @@ class NewUser {
       password,
     });
       
-    const userSaved = await this.repository.save(user.toJson());
-    return userSaved;
+    await this.repository.save(user.toJson());
+    
+    return user;
   }
 
   async validDuplicatedEmail(email) {

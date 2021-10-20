@@ -62,7 +62,7 @@ class User {
 
   toJson() {
     return {
-      id: this.id,
+      _id: this.id,
       name: this.name,
       email: this.email,
       role: this.role,

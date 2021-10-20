@@ -68,7 +68,9 @@ class Recipes {
     const tempPath = req.file.path;
     const targetPath = path.join(__dirname, `../uploads/${recipeId}.${extension}`);
 
-    fs.rename(tempPath, targetPath, (err) => console.log(err));
+    fs.rename(tempPath, targetPath, (err) => { 
+      if (err) console.log(err);
+    });
     recipeFound.image = `localhost:3000/src/uploads/${recipeId}.${extension}`;
     const recipe = recipeFound.toJson();
     res.status(200).json(recipe);

@@ -12,7 +12,7 @@ class UserRepository {
   }
   
   save(usuario) {
-    return this.strategy.save(usuario);
+    this.strategy.save(usuario);
   }
   
   findByEmail(email) {
