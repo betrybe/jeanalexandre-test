@@ -58,6 +58,14 @@ class Recipe {
     return this.aUserId;
   }
 
+  set image(value) {
+    this.aImage = value;
+  }
+
+  get image() {
+    return this.aImage;
+  }
+
   toJson() {
     return {
       _id: this.id,
@@ -65,6 +73,7 @@ class Recipe {
       ingredients: this.ingredients,
       preparation: this.preparation,
       userId: this.userId,
+      image: this.image,
     };
   }
 
@@ -74,6 +83,7 @@ class Recipe {
     ingredients,
     preparation,
     userId,
+    image,
   }) {
     const recipe = new Recipe({
       id: _id,
@@ -82,6 +92,7 @@ class Recipe {
       preparation,
       userId,
     });
+    recipe.image = image;
 
     return recipe;
   }

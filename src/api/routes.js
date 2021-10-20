@@ -1,6 +1,9 @@
 const { Router } = require('express');
+const multer = require('multer');
 const rescue = require('express-rescue');
 const db = require('../infra/db');
+
+const upload = multer({ dest: '../uploads/' });
 
 const AssertionError = require('../domain/common/AssertionError');
 const DuplicationError = require('../domain/common/DuplicationError');
@@ -43,6 +46,10 @@ class Routes {
     this.routes.route('/recipes')
       .get(rescue(async (req, res) => this.recipes.listAll(req, res)))
       .post(rescue(async (req, res) => this.recipes.newRecipe(req, res)));
+
+    this.routes.route('/recipes/:id/image')
+      .put(upload.single('image'), 
+           rescue(async (req, res) => this.recipes.uploadImage(req, res)));
   }
 
   createErrorRoutes() {

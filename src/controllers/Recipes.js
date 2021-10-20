@@ -1,3 +1,5 @@
+const path = require('path');
+const fs = require('fs');
 const NewRecipe = require('../domain/Recipe/NewRecipe');
 
 class Recipes {
@@ -24,7 +26,7 @@ class Recipes {
     const { id: userId } = this.tokenService.extract(token);
     //TODO validar userId com recipeFound.userId;
     //TODO apenas usuarios admin podem remover
-    
+
     const { id: recipeId } = req.params;
     const { name, ingredients, preparation } = req.body;
     
@@ -49,6 +51,27 @@ class Recipes {
     await this.repository.deleteById(recipeId);
 
     return res.sendStatus(204);
+  }
+
+  async uploadImage(req, res) {
+    const token = req.get('Authorization') || req.headers.authorization;
+    const { id: userId } = this.tokenService.extract(token);
+    const { id: recipeId } = req.params;
+    const recipeFound = await this.repository.findById(recipeId);
+
+    const { file } = req;
+    if (!file) {
+      throw new Error('Please upload a file');
+    }
+    const [, extension] = file.mimetype.split('/');
+
+    const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, `../uploads/${recipeId}.${extension}`);
+
+    fs.rename(tempPath, targetPath, (err) => console.log(err));
+    recipeFound.image = `localhost:3000/src/uploads/${recipeId}.${extension}`;
+    const recipe = recipeFound.toJson();
+    res.status(200).json(recipe);
   }
 
   async getOne(req, res) {
