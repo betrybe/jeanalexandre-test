@@ -74,6 +74,12 @@ class Recipes {
     res.status(200).json(recipe);
   }
 
+  getImage(req, res) {
+    const { fileName, ext } = req.params;
+
+    res.sendFile(path.join(__dirname, `../uploads/${fileName}.${ext}`));
+  }
+
   async getOne(req, res) {
     const { id } = req.params;
     

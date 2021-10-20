@@ -18,6 +18,10 @@ const RecipesController = require('../controllers/Recipes');
 const LoginController = require('../controllers/Login');
 
 class Routes {
+  constructor() {
+    this.routes = Router();
+  }
+
   connectDB() {
     db().then((client) => {
       this.userRepository = new UserRepository(client);
@@ -29,15 +33,15 @@ class Routes {
     });
   }
 
-  createRoutes() {
-    this.routes = Router();
-  
+  createRoutesForUsers() { 
     this.routes.route('/users')
       .post(rescue(async (req, res) => this.users.newUser(req, res)));
 
     this.routes.route('/login')
       .post(rescue(async (req, res) => this.login.autenticate(req, res)));
-    
+  }
+
+  createRoutesForRecipes() {
     this.routes.route('/recipes/:id')
       .get(rescue(async (req, res) => this.recipes.getOne(req, res)))
       .put(rescue(async (req, res) => this.recipes.editRecipe(req, res)))
@@ -50,6 +54,9 @@ class Routes {
     this.routes.route('/recipes/:id/image')
       .put(upload.single('image'), 
            rescue(async (req, res) => this.recipes.uploadImage(req, res)));
+    
+    this.routes.route('/images/:fileName.:ext')
+      .get(rescue(async (req, res) => this.recipes.getImage(req, res)));    
   }
 
   createErrorRoutes() {
@@ -69,7 +76,8 @@ class Routes {
 
 const injection = new Routes();
 injection.connectDB();
-injection.createRoutes();
+injection.createRoutesForUsers();
+injection.createRoutesForRecipes();
 injection.createErrorRoutes();
 
 module.exports = injection.routes;
