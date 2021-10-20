@@ -36,7 +36,9 @@ class Routes {
       .post(rescue(async (req, res) => this.login.autenticate(req, res)));
     
     this.routes.route('/recipes/:id')
-      .get(rescue(async (req, res) => this.recipes.getOne(req, res)));
+      .get(rescue(async (req, res) => this.recipes.getOne(req, res)))
+      .put(rescue(async (req, res) => this.recipes.editRecipe(req, res)))
+      .delete(rescue(async (req, res) => this.recipes.deleteRecipe(req, res)));
     
     this.routes.route('/recipes')
       .get(rescue(async (req, res) => this.recipes.listAll(req, res)))

@@ -60,7 +60,7 @@ class Recipe {
 
   toJson() {
     return {
-      id: this.id,
+      _id: this.id,
       name: this.name,
       ingredients: this.ingredients,
       preparation: this.preparation,

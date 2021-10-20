@@ -1,4 +1,5 @@
 const mongo = require('mongodb');
+const Recipe = require('../../domain/Recipe/Recipe');
 const NotFoundObjectError = require('../../domain/common/NotFoundObjectError');
 
 class MongoRecipeRepository {
@@ -11,9 +12,9 @@ class MongoRecipeRepository {
     return new this.ObjectID();
   }
 
-  async save({ id, name, ingredients, preparation, userId }) {
+  async save({ _id, name, ingredients, preparation, userId }) {
     const recipe = {
-      _id: id,
+      _id,
       name,
       ingredients,
       preparation,
@@ -21,7 +22,7 @@ class MongoRecipeRepository {
     };
     
     await this.collection.findOneAndUpdate(
-      { _id: id },
+      { _id },
       { $set: recipe,
       },
       { upsert: true, returnNewDocument: true },
@@ -41,11 +42,15 @@ class MongoRecipeRepository {
       throw new NotFoundObjectError('recipe not found');
     }
 
-    return item;
+    return Recipe.fromJson(item);
   }
 
   findAll() {
     return this.collection.find({}).toArray();
+  }
+
+  deleteById(recipeId) {
+    this.collection.remove({ _id: recipeId });
   }
 }
 

@@ -7,7 +7,7 @@ class TokenJwtService {
   }
 
   extract(token) {
-    if (!token) throw new AuthorizationError('jwt malformed');
+    if (!token) throw new AuthorizationError('missing auth token');
 
     return jwt.verify(token, this.SECRET, (err, decoded) => {
       if (err) throw new AuthorizationError('jwt malformed');
