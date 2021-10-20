@@ -11,6 +11,10 @@ class UserRepository {
     return this.aStrategy;
   }
   
+  nextId() {
+    return this.strategy.nextId();
+  } 
+
   save(usuario) {
     this.strategy.save(usuario);
   }

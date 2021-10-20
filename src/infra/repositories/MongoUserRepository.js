@@ -1,5 +1,5 @@
 const mongo = require('mongodb');
-const User = require('../../domain/User/User')
+const User = require('../../domain/User/User');
 
 class MongoUserRepository {
   constructor(client) {
