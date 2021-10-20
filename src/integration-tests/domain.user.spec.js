@@ -82,9 +82,9 @@ describe("Domain: User", () => {
 			try {
 				new User({
 					id: "122121",
-					nome: "Matheus Peluchi"
+					name: "Matheus Peluchi"
 				});
-				expect.fail("Deveria dar erro de login vazio!");
+				expect.fail("Deveria dar erro de email vazio!");
 			} catch(error) {
 				expect(error).instanceOf(AssertionError);
 				expect(error.message).to.eql(NOT_NULL_MESSAGE);
@@ -95,7 +95,7 @@ describe("Domain: User", () => {
 			try {
 				new User({
 					id: "122121",
-					nome: "Matheus Peluchi",
+					name: "Matheus Peluchi",
 					email: "matheus@gmail.com",
 				});
 				expect.fail("Deveria dar erro de senha vazia!");
