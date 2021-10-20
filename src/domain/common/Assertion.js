@@ -2,10 +2,6 @@ const AssertionError = require('./AssertionError');
 const DuplicationError = require('./DuplicationError');
 
 class Assertion {
-  constructor() {
-    this.stance = null;
-  }
-
   assertEquals(anObject1, anObject2, aMessage) {
     if (anObject1 !== anObject2)
        throw new AssertionError(aMessage);
