@@ -30,7 +30,6 @@ class Users {
     const newUser = await this.useCase.create(newId, { name, email, password, role: 'admin' });
     
     const user = newUser.toJson();
-    console.log(user);
     delete user.password;
 
     return res.status(201).json({ user });    

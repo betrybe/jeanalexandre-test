@@ -5,12 +5,6 @@ const db = require('../infra/db');
 
 const upload = multer({ dest: '../uploads/' });
 
-const AssertionError = require('../domain/common/AssertionError');
-const DuplicationError = require('../domain/common/DuplicationError');
-const AuthorizationError = require('../domain/common/AuthorizationError');
-const NotFoundObjectError = require('../domain/common/NotFoundObjectError');
-const ForbiddenError = require('../domain/common/ForbiddenError');
-
 const UserRepository = require('../infra/repositories/MongoUserRepository');
 const RecipeRepository = require('../infra/repositories/MongoRecipeRepository');
 const TokenJwtService = require('../infra/services/TokenJwtService');
@@ -65,15 +59,8 @@ class Routes {
 
   createErrorRoutes() {
     this.routes.use((err, req, res, next) => {
-      let status = 500;
-
-      if (err instanceof AssertionError) status = 400;   
-      if (err instanceof AuthorizationError) status = 401;      
-      if (err instanceof ForbiddenError) status = 403;      
-      if (err instanceof NotFoundObjectError) status = 404;      
-      if (err instanceof DuplicationError) status = 409;
-
-      return res.status(status)
+      if (next) console.log('only for lint pass');
+      return res.status(err.statusCode || 500)
         .json({ message: err.message });
     });
   }

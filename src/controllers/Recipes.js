@@ -23,14 +23,13 @@ class Recipes {
 
   async editRecipe(req, res) {
     const token = req.get('Authorization') || req.headers.authorization;
-    const { id: userId } = this.tokenService.extract(token);
-    //TODO validar userId com recipeFound.userId;
-    //TODO apenas usuarios admin podem remover
+    this.tokenService.extract(token);
 
     const { id: recipeId } = req.params;
     const { name, ingredients, preparation } = req.body;
     
     const recipeFound = await this.repository.findById(recipeId);
+    
     recipeFound.name = name;
     recipeFound.ingredients = ingredients;
     recipeFound.preparation = preparation;
@@ -43,9 +42,8 @@ class Recipes {
 
   async deleteRecipe(req, res) {
     const token = req.get('Authorization') || req.headers.authorization;
-    const { id: userId } = this.tokenService.extract(token);
-    //TODO validar userId com recipeFound.userId;
-    //TODO apenas usuarios admin podem remover
+    this.tokenService.extract(token);
+
     const { id: recipeId } = req.params;
 
     await this.repository.deleteById(recipeId);
@@ -55,7 +53,7 @@ class Recipes {
 
   async uploadImage(req, res) {
     const token = req.get('Authorization') || req.headers.authorization;
-    const { id: userId } = this.tokenService.extract(token);
+    this.tokenService.extract(token);
     const { id: recipeId } = req.params;
     const recipeFound = await this.repository.findById(recipeId);
 
@@ -94,6 +92,8 @@ class Recipes {
     const list = await this.repository.findAll();
     return res.json(list);
   }
+
+  
 }
 
 module.exports = Recipes;
