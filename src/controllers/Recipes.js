@@ -76,8 +76,8 @@ class Recipes {
 
   getImage(req, res) {
     const { fileName, ext } = req.params;
-
-    res.sendFile(path.join(__dirname, `../uploads/${fileName}.${ext}`));
+    this.file = path.join(__dirname, `../uploads/${fileName}.${ext}`);
+    res.sendFile(this.file);
   }
 
   async getOne(req, res) {
@@ -92,8 +92,6 @@ class Recipes {
     const list = await this.repository.findAll();
     return res.json(list);
   }
-
-  
 }
 
 module.exports = Recipes;
