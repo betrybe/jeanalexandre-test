@@ -24,25 +24,6 @@ describe("Domain: NewUser", () => {
 			expect(user.email).to.eql("jeandobre@gmail.com");
 			expect(user.password).to.eql("123456");
 			expect(user.role).to.eql("user");
-		});
-		/*
-		it("Deve falhar ao criar usuario com login existente !", async () => {
-			
-			try {
-				await novoUsuario.executar(1, {
-					nome: "Teste", 
-					nomeUsuario: "teste",
-					cpf: "11111111111",
-					dominio: "@mock",
-					formaAutenticacao: "mock",
-					ativo: false
-				});
-				expect.fail("Deveria ter falhado ao criar usuario com login dupliado.");
-			
-			} catch(error) {
-				expect(error.message).to.eql("O nome de usuário teste já está registrado, não pode ser duplicado!");
-			}
-		});	
-		*/
+		});		
 	});
 });

@@ -16,8 +16,8 @@ class NewRecipe {
       userId,
     });
       
-    const recipeSaved = await this.repository.save(recipe.toJson());
-    return recipeSaved;
+    await this.repository.save(recipe.toJson());
+    return recipe;
   }
 }
 

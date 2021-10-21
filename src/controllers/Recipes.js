@@ -16,8 +16,9 @@ class Recipes {
     
     const recipeId = this.repository.nextId();
 
-    const recipe = await this.useCase.create(recipeId, { name, ingredients, preparation, userId });
-
+    const newRecipe = await this.useCase
+      .create(recipeId, { name, ingredients, preparation, userId });
+    const recipe = newRecipe.toJson();
     return res.status(201).json({ recipe });
   }
 
