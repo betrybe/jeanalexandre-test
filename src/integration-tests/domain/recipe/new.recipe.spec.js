@@ -4,14 +4,14 @@ const MemRecipeRepository = require('../MemRecipeRepository');
 
 describe("Domain: NewRecipe", () => {
 	const memRepository = new MemRecipeRepository();
-	const userCase = new NewRecipe(memRepository);
+	const useCase = new NewRecipe(memRepository);
 	
 	describe("create()", () => {		
 		it("Deve criar nova receita corretamente!", async () => {
 			
 			const newId = memRepository.nextId();
 
-			const user = await userCase.create(newId, {
+			const user = await useCase.create(newId, {
 				name: "Receita",
 				ingredients: "informação",
 				preparation: "forma de preparação",

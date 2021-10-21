@@ -4,14 +4,14 @@ const MemUserRepository = require('../MemUserRepository');
 
 describe("Domain: NewUser", () => {
 	const memRepository = new MemUserRepository();
-	const userCase = new NewUser(memRepository);
+	const useCase = new NewUser(memRepository);
 	
 	describe("create()", () => {		
 		it("Deve criar novo usuario corretamente!", async () => {
 			
 			const newId = memRepository.nextId();
 
-			const user = await userCase.create(newId, {
+			const user = await useCase.create(newId, {
 				name: "Jean Dobre",
 				email: "jeandobre@gmail.com",
 				password: "123456"
