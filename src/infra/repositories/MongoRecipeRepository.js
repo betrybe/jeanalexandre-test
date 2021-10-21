@@ -50,7 +50,7 @@ class MongoRecipeRepository {
   }
 
   deleteById(recipeId) {
-    this.collection.remove({ _id: recipeId });
+    this.collection.deleteOne({ _id: recipeId });
   }
 }
 

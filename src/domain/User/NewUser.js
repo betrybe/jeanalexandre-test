@@ -9,7 +9,7 @@ class NewUser {
     this.repository.strategy = repository;
   }
   
-  async create(newId, { name, email, password }) {
+  async create(newId, { name, email, password, role }) {
     await this.validDuplicatedEmail(email);
 
     const user = new User({
@@ -17,6 +17,7 @@ class NewUser {
       name,
       email,
       password,
+      role,
     });
       
     await this.repository.save(user.toJson());

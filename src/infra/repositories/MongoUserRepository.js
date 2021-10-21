@@ -1,5 +1,6 @@
 const mongo = require('mongodb');
 const User = require('../../domain/User/User');
+const NotFoundObjectError = require('../../domain/common/NotFoundObjectError');
 
 class MongoUserRepository {
   constructor(client) {
@@ -32,6 +33,15 @@ class MongoUserRepository {
     const [userMongo] = await this.collection.find({ email }).toArray();
     if (!userMongo) return null;
     return User.fromJson({ ...userMongo });
+  }
+
+  async findById(id) {
+    const user = await this.collection.findOne({ _id: this.ObjectID(id) });
+    if (!user) {
+      throw new NotFoundObjectError('recipe not found');
+    }
+
+    return User.fromJson(user);
   }
 }
 

@@ -9,6 +9,7 @@ const AssertionError = require('../domain/common/AssertionError');
 const DuplicationError = require('../domain/common/DuplicationError');
 const AuthorizationError = require('../domain/common/AuthorizationError');
 const NotFoundObjectError = require('../domain/common/NotFoundObjectError');
+const ForbiddenError = require('../domain/common/ForbiddenError');
 
 const UserRepository = require('../infra/repositories/MongoUserRepository');
 const RecipeRepository = require('../infra/repositories/MongoRecipeRepository');
@@ -27,7 +28,7 @@ class Routes {
       this.userRepository = new UserRepository(client);
       this.recipeRepository = new RecipeRepository(client);
       this.tokenJwtService = new TokenJwtService();
-      this.users = new UsersController(this.userRepository);
+      this.users = new UsersController(this.userRepository, this.tokenJwtService);
       this.recipes = new RecipesController(this.recipeRepository, this.tokenJwtService);
       this.login = new LoginController(this.userRepository, this.tokenJwtService);
     });
@@ -36,6 +37,9 @@ class Routes {
   createRoutesForUsers() { 
     this.routes.route('/users')
       .post(rescue(async (req, res) => this.users.newUser(req, res)));
+
+    this.routes.route('/users/admin')
+      .post(rescue(async (req, res) => this.users.newAdminUser(req, res)));
 
     this.routes.route('/login')
       .post(rescue(async (req, res) => this.login.autenticate(req, res)));
@@ -65,6 +69,7 @@ class Routes {
 
       if (err instanceof AssertionError) status = 400;   
       if (err instanceof AuthorizationError) status = 401;      
+      if (err instanceof ForbiddenError) status = 403;      
       if (err instanceof NotFoundObjectError) status = 404;      
       if (err instanceof DuplicationError) status = 409;
 
