@@ -4,8 +4,6 @@ const NOT_NULL_MESSAGE = 'Invalid entries. Try again.';
 
 class User {
   constructor({ id, name, email, password, role }) {
-    this.assertion = new Assertion();
-
     this.id = id;
     this.name = name;
     this.email = email;
@@ -15,7 +13,7 @@ class User {
   }
 
   set id(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aId = value;
   }
 
@@ -24,7 +22,7 @@ class User {
   }
 
   set name(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aName = value;
   }
 
@@ -33,8 +31,8 @@ class User {
   }
 
   set email(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
-    this.assertion.assertIsEmail(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertIsEmail(value, NOT_NULL_MESSAGE);
     this.aEmail = value;
   }
 
@@ -43,7 +41,7 @@ class User {
   }
 
   set role(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aRole = value;
   }
 
@@ -52,7 +50,7 @@ class User {
   }
 
   set password(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aPassword = value;
   }
 

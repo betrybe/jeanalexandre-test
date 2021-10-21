@@ -4,8 +4,6 @@ const NOT_NULL_MESSAGE = 'Invalid entries. Try again.';
 
 class Recipe {
   constructor({ id, name, ingredients, preparation, userId }) {
-    this.assertion = new Assertion();
-
     this.id = id;
     this.name = name;
     this.ingredients = ingredients;
@@ -14,7 +12,7 @@ class Recipe {
   }
 
   set id(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aId = value;
   }
 
@@ -23,7 +21,7 @@ class Recipe {
   }
 
   set name(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aName = value;
   }
 
@@ -32,7 +30,7 @@ class Recipe {
   }
 
   set ingredients(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aIngredients = value;
   }
 
@@ -41,7 +39,7 @@ class Recipe {
   }
 
   set preparation(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aPreparation = value;
   }
 
@@ -50,7 +48,7 @@ class Recipe {
   }
 
   set userId(value) {
-    this.assertion.assertNotNull(value, NOT_NULL_MESSAGE);
+    Assertion.assertNotNull(value, NOT_NULL_MESSAGE);
     this.aUserId = value;
   }
 

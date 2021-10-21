@@ -4,7 +4,6 @@ const Assertion = require('../common/Assertion');
 
 class NewUser {
   constructor(repository) {
-    this.assertion = new Assertion();
     this.repository = new UserRepository();
     this.repository.strategy = repository;
   }
@@ -27,7 +26,7 @@ class NewUser {
 
   async validDuplicatedEmail(email) {
     const user = await this.repository.findByEmail(email);
-    this.assertion.assertIsNullDuplicated(user, 'Email already registered');   
+    Assertion.assertIsNullDuplicated(user, 'Email already registered');   
   }
 }
 

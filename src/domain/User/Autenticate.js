@@ -8,7 +8,6 @@ const FIELD_NOT_FILLED_MESSAGE = 'All fields must be filled';
 
 class Autenticate {  
   constructor(usuarioRepository, tokenService) {
-    this.assertion = new Assertion();
     this.repository = new UsuarioRepository();
     this.repository.strategy = usuarioRepository;
 
@@ -18,13 +17,13 @@ class Autenticate {
 
   async execute({ email, password }) {
     try {
-      this.assertion.assertNotNull(email, FIELD_NOT_FILLED_MESSAGE);
-      this.assertion.assertNotNull(password, FIELD_NOT_FILLED_MESSAGE);
+      Assertion.assertNotNull(email, FIELD_NOT_FILLED_MESSAGE);
+      Assertion.assertNotNull(password, FIELD_NOT_FILLED_MESSAGE);
     
       const user = await this.repository.findByEmail(email);
-      this.assertion.assertTrue(user, USER_NOT_FOUND_MESSAGE);
+      Assertion.assertTrue(user, USER_NOT_FOUND_MESSAGE);
       
-      this.assertion.assertEquals(user.password, password, USER_NOT_FOUND_MESSAGE);
+      Assertion.assertEquals(user.password, password, USER_NOT_FOUND_MESSAGE);
       
       return this.tokenService.generate({ id: user.id, email });
     } catch (err) {
