@@ -4,7 +4,7 @@ const AssertionError = require('../../../domain/common/AssertionError');
 const DuplicationError = require('../../../domain/common/DuplicationError');
 
 describe("Domain: common", () => {	
-	const assertion = new Asssertion();
+	const assertion = Asssertion;
 
 	describe("assertEquals()", () => {		
 		it("Comparação com sucesso!", async () => {
