@@ -1,14 +1,14 @@
 const { expect } = require('chai');
-const UserRepository = require('../../../domain/User/UserRepository');
-const MemUserRepository = require('../MemUserRepository');
-const User = require('../../../domain/User/User');
+const RecipeRepository = require('../../../domain/Recipe/RecipeRepository');
+const MemRecipeRepository = require('../MemRecipeRepository');
+const Recipe = require('../../../domain/Recipe/Recipe');
 
-describe("Domain: UserRepository", () => {
+describe("Domain: RecipeRepository", () => {
 	let repository;
 
 	before(() => {
-		repository = new UserRepository();
-		repository.strategy = new MemUserRepository();
+		repository = new RecipeRepository();
+		repository.strategy = new MemRecipeRepository();
 	});
 
 	describe("nextId()", () => {
@@ -22,39 +22,42 @@ describe("Domain: UserRepository", () => {
 	})
 	
 	describe("save()", () => {
-		it("Deve salvar usuário com sucesso!", () => {
+		it("Deve salvar receita com sucesso!", () => {
 			
-			const newUser = new User({ 
-				id: "aafds", 
-				name: "Novo usuário",
-				email: "usuario@user.com",
-				password: "123456"
+			const newRecipe = new Recipe({ 
+				id: "xadf", 
+				name: "Receita",
+				ingredients: "informação",
+				preparation: "forma de preparação",
+				userId: "45"
 			});
 
-			repository.save(newUser.toJson());
+			repository.save(newRecipe.toJson());
 			
-			expect(repository.strategy.users).to.be.an('array').to.have.lengthOf(1);
+			expect(repository.strategy.recipes).to.be.an('array').to.have.lengthOf(1);
 		});
 	});
 
-	describe("findByEmail()", () => {
-		it("Deve obter um usuário por email com sucesso!", () => {
+	describe("findById()", () => {
+		it("Deve obter uma receita por id com sucesso!", () => {
 			
-			const newUser = new User({ 
+			const newRecipe = new Recipe({ 
 				id: "aafds", 
-				name: "Novo usuário",
-				email: "usuario@user.com",
-				password: "123456"
+				name: "Nova receita",
+				ingredients: "ingredientes",
+				preparation: "forma de preparação",
+				userId: "abc"
 			});
 
-			repository.save(newUser.toJson());
+			repository.save(newRecipe.toJson());
 			
-			const user = repository.findByEmail("usuario@user.com");
+			const recipe = repository.findById("aafds");
 
-			expect(user.id).to.eql("aafds");
-			expect(user.name).to.eql("Novo usuário");
-			expect(user.email).to.eql("usuario@user.com");
-			expect(user.password).to.eql("123456");
+			expect(recipe.id).to.eql("aafds");
+			expect(recipe.name).to.eql("Nova receita");
+			expect(recipe.ingredients).to.eql("ingredientes");
+			expect(recipe.preparation).to.eql("forma de preparação");
+			expect(recipe.userId).to.eql("abc");
 		});
 	});
 });
