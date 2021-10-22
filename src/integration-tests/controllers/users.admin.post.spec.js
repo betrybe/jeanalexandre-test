@@ -31,7 +31,7 @@ describe("Routes: Users", () => {
 				password: "123456" 
 			});
 
-			token = tokenService.generate({ id, email })
+			token = tokenService.generate({ id, email });
 		});
 		
 		it("201 Deve criar novo usuário admin com sucesso!", async () => {
