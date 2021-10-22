@@ -5,7 +5,6 @@ const TokenJwtService = require('../../infra/services/TokenJwtService');
 const db = require('../../infra/db');
 const app = require('../../api/app');
 
-
 chai.use(http);
 const { expect } = chai;
 

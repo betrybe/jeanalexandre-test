@@ -14,8 +14,9 @@ describe("Routes: Recipes", () => {
 		await db().then(client => collection = client.collection('recipes')); 
 	});
 	
-	describe("POST /recipes", () => {
+	describe("PUT /recipes/:id", () => {
 		const userId = new ObjectID();
+		const _id = new ObjectID();
 		let token;
 		
 		beforeEach(async () => {
@@ -24,16 +25,24 @@ describe("Routes: Recipes", () => {
 			const email = "pandora@email.com";
 
 			token = tokenService.generate({ id: userId.toString(), email });
+			
+			await collection.insert({
+				_id,
+				name: "Batida de morango",
+				ingredients: "Morango, pinga e gelo",
+				preparation: "colocar tudo no liquidificador e bater.",
+				userId
+			});
 		});
 		
-		it("201 Deve criar nova receita com sucesso!", async () => {
+		it("200 Deve alterar nova receita com sucesso!", async () => {
 			const name = "Poção da invisibilidade";
 			const ingredients = "1 Fada, 2 pelos de macaco, ...";
 			const preparation = "coloque a fada no caldeirão junto aos pelos...";
 
 			const { status, body } = await chai
 				.request(app)
-				.post("/recipes")
+				.put(`/recipes/${_id}`)
 				.set("Authorization", token)
 				.send({				
 					name,
@@ -41,18 +50,18 @@ describe("Routes: Recipes", () => {
 					preparation
 				});
 
-			expect(status).to.eql(201);
-			const { recipe } = body;
-			expect(recipe.name).to.eq(name);
-			expect(recipe.ingredients).to.eq(ingredients);
-			expect(recipe.preparation).to.eq(preparation);
-			expect(recipe.userId).to.eq(userId.toString());
+			expect(status).to.eql(200);
+
+			expect(body.name).to.eq(name);
+			expect(body.ingredients).to.eq(ingredients);
+			expect(body.preparation).to.eq(preparation);
+			expect(body.userId).to.eq(userId.toString());
 			
-			const recipeSaved = await collection.findOne({ _id: ObjectID(recipe._id) });
+			const recipeSaved = await collection.findOne({ _id: ObjectID(body._id) });
 			expect(recipeSaved.name).to.eq(name);
 			expect(recipeSaved.ingredients).to.eq(ingredients);
 			expect(recipeSaved.preparation).to.eq(preparation);
-			expect(recipeSaved.userId).to.eq(userId.toString());			
+			expect(recipeSaved.userId.toString()).to.eq(userId.toString());			
 		});
 	});
 });
