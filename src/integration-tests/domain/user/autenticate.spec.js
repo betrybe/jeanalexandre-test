@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const Autenticate = require('../../../domain/User/Autenticate');
 const MemUserRepository = require('../MemUserRepository');
-const MockTokenService = require('../MockTokenService');
+const MockTokenService = require('../../infra/MockTokenService');
 const AuthorizationError = require('../../../domain/common/AuthorizationError');
 
 describe("Domain: Autenticate", () => {

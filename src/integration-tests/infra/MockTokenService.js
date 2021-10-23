@@ -8,13 +8,13 @@ class MockTokenService {
   extract(token) {
     if (!token) throw new AuthorizationError('missing auth token');
 
-		const [id, secret, email] = token;
+		const [id, secret, email] = token.split("-");
 
 		if(!id || !secret || !email)
-			if (err) throw new AuthorizationError('jwt malformed');
+			throw new AuthorizationError('jwt malformed');
 		
 		if(secret !== this.SECRET)
-			if (err) throw new AuthorizationError('jwt malformed');
+			throw new AuthorizationError('jwt malformed');
 
     return {
       id,
