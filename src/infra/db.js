@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const mongoDbUrl = 'mongodb://localhost:27017/Cookmaster';
+const mongoDbUrl = 'mongodb://mongodb:27017/Cookmaster';
 
 async function mongoConnection() {
   const connection = await MongoClient.connect(mongoDbUrl, {
