@@ -51,7 +51,7 @@ class Routes {
 
     this.routes.route('/recipes/:id/image')
       .put(upload.single('image'), 
-           rescue(async (req, res) => this.recipes.uploadImage(req, res)));
+          rescue(async (req, res) => this.recipes.uploadImage(req, res)));
     
     this.routes.route('/images/:fileName.:ext')
       .get(rescue(async (req, res) => this.recipes.getImage(req, res)));    
