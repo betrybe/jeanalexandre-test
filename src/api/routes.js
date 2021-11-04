@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const multer = require('multer');
+const path = require('path');
 const rescue = require('express-rescue');
 const db = require('../infra/db');
 
-const upload = multer({ dest: '../uploads/' });
+const upload = multer({ dest: path.join(__dirname, '..', 'uploads') });
 
 const UserRepository = require('../infra/repositories/MongoUserRepository');
 const RecipeRepository = require('../infra/repositories/MongoRecipeRepository');
