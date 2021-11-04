@@ -59,11 +59,10 @@ class Routes {
   }
 
   createErrorRoutes() {
-    this.routes.use((err, req, res, next) => {
-      if (next) console.log('only for lint pass');
-      return res.status(err.statusCode || 500)
-        .json({ message: err.message });
-    });
+    this.routes.use((err, req, res, _next) => 
+      // if (next) console.log('only for lint pass');
+      res.status(err.statusCode || 500)
+        .json({ message: err.message }));
   }
 }
 
